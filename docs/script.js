@@ -134,4 +134,34 @@ function toggleMenu() {
   menu.classList.toggle("active");
 }
 
+/* =========================
+   ENVIO DE FORMULÁRIO (EMAILJS)
+========================== */
+const leadForm = document.getElementById('lead-form');
+
+if (leadForm) {
+  leadForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const btn = this.querySelector('.btn-submit');
+    const originalText = btn.innerText;
+    
+    btn.innerText = "Enviando...";
+    btn.disabled = true;
+
+    // Use o Service ID e Template ID gerados no seu painel
+    emailjs.sendForm('service_aw650bg', 'template_ydz6fp2', this)
+      .then(function() {
+        alert('Solicitação enviada com sucesso!');
+        leadForm.reset();
+      }, function(error) {
+        alert('Falha ao enviar: ' + JSON.stringify(error));
+      })
+      .finally(() => {
+        btn.innerText = originalText;
+        btn.disabled = false;
+      });
+  });
+}
+
 
